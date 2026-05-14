@@ -15,6 +15,7 @@ from dotenv import load_dotenv
 from rich.console import Console
 
 from conoscienza import __version__
+from conoscienza import config
 from conoscienza import paths
 
 load_dotenv()  # carica .env dalla cwd, se presente
@@ -61,6 +62,64 @@ def init(
         _init_global(root)
     else:
         _init_domain(root, domain)
+
+
+@app.command()
+def check(
+    domain: str = typer.Argument(
+        None,
+        help="Dominio da validare. Se omesso, valida la config globale e tutti i domini.",
+    ),
+) -> None:
+    """Valida le configurazioni: ``global.yaml`` e i file di config dei domini.
+
+    Senza argomento controlla la config globale e ogni dominio presente. Con un nome,
+    controlla la config globale e quel dominio soltanto. Esce con codice 1 se trova
+    anche un solo problema: utile in CI o in un hook pre-run.
+    """
+    root = paths.data_root()
+    if not paths.config_dir(root).exists():
+        console.print(
+            f"[red]Errore:[/red] struttura dati assente in {root}. Esegui prima: conoscienza init"
+        )
+        raise typer.Exit(code=1)
+
+    errors = 0
+
+    try:
+        config.load_global(root)
+        console.print("[green]ok  [/green] global.yaml")
+    except config.ConfigError as exc:
+        errors += 1
+        console.print(f"[red]FAIL[/red] global.yaml\n{_indent(exc)}")
+
+    if domain is None:
+        targets = sorted(p.name for p in paths.domains_dir(root).iterdir() if p.is_dir())
+        if not targets:
+            console.print("[yellow]nota:[/yellow] nessun dominio da controllare.")
+    elif not paths.domain_dir(domain, root).exists():
+        console.print(f"[red]Errore:[/red] il dominio '{domain}' non esiste sotto {paths.domains_dir(root)}")
+        raise typer.Exit(code=1)
+    else:
+        targets = [domain]
+
+    for dom in targets:
+        try:
+            cfg = config.load_domain(dom, root)
+            console.print(f"[green]ok  [/green] dominio '{dom}' ({len(cfg.sources)} fonti)")
+        except config.ConfigError as exc:
+            errors += 1
+            console.print(f"[red]FAIL[/red] dominio '{dom}'\n{_indent(exc)}")
+
+    if errors:
+        console.print(f"\n[red]{errors} problema/i di configurazione.[/red]")
+        raise typer.Exit(code=1)
+    console.print("\n[green]Configurazione valida.[/green]")
+
+
+def _indent(exc: Exception, prefix: str = "       ") -> str:
+    """Rientra un messaggio d'errore multilinea sotto la riga di esito."""
+    return "\n".join(prefix + line for line in str(exc).splitlines())
 
 
 def _init_global(root: Path) -> None:

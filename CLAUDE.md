@@ -62,13 +62,15 @@ uv sync                          # crea venv + installa deps
 uv run conoscienza --help
 uv run conoscienza init          # crea struttura dati (data/config/, domains/, logs/)
 uv run conoscienza init <nome>   # scaffold di un nuovo dominio
+uv run conoscienza check         # valida global.yaml + tutti i domini (exit 1 su errori)
+uv run conoscienza check <nome>  # valida la config globale e quel dominio soltanto
 ```
 
 ## Stato
 
-Implementato: CLI (`init`), storage layer (schema sqlite-vec + migration runner),
-config loader (`config.py`: modelli Pydantic + validazione di `global.yaml` e dei tre
-file di config per-dominio, `load_global` / `load_domain`).
+Implementato: CLI (`init`, `check`), storage layer (schema sqlite-vec + migration
+runner), config loader (`config.py`: modelli Pydantic + validazione di `global.yaml`
+e dei tre file di config per-dominio, `load_global` / `load_domain`).
 Non ancora implementato: nessuno dei 5 stadi della pipeline.
 
 Roadmap: `progettazione_preliminare/versione-mix.md` §13.
