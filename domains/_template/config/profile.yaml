@@ -1,0 +1,33 @@
+# Profilo di rilevanza e scoring del dominio. Copiare e compilare.
+
+domain: TEMPLATE
+
+# --- Classificazione rilevanza (classifier zero-shot) ---
+relevance:
+  whitelist:
+    - "topic seguito 1"
+    - "topic seguito 2"
+  blacklist:
+    - "rumore da scartare 1"
+
+# --- Weight profiles per tipo di fonte (rinormalizzati a somma 1) ---
+# f=freshness  a=source_authority  t=topic_match  s=social_signal
+weight_profiles:
+  rss:        { f: 0.30, a: 0.50, t: 0.20, s: 0.00 }
+  newsletter: { f: 0.20, a: 0.40, t: 0.40, s: 0.00 }
+  arxiv:      { f: 0.20, a: 0.30, t: 0.50, s: 0.00 }
+  hackernews: { f: 0.20, a: 0.20, t: 0.30, s: 0.30 }
+  reddit:     { f: 0.20, a: 0.10, t: 0.40, s: 0.30 }
+  github:     { f: 0.30, a: 0.20, t: 0.30, s: 0.20 }
+  searxng:    { f: 0.40, a: 0.30, t: 0.30, s: 0.00 }
+
+# --- Freshness ---
+freshness_half_life_days: 5
+
+# --- Soglie ---
+# triage_score salvato sempre come valore assoluto [0,1].
+# promote_to_kb e una decisione booleana, calibrata per dominio (vedi versione-mix.md §5.7).
+thresholds:
+  promote_to_kb: 0.70   # sopra: compile in KB
+  digest_min: 0.30      # sotto: item scartato del tutto
+  # calibrare dopo 2 settimane di "log only"

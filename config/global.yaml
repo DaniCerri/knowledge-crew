@@ -1,0 +1,65 @@
+# Config trasversale a tutti i domini.
+# Le scelte specifiche di un campo (fonti, soglie, whitelist) stanno in domains/<x>/config/.
+
+# --- Modelli ---
+models:
+  embedding:
+    name: qwen3-embedding-4b
+    backend: sentence-transformers   # oppure: ollama
+    matryoshka_dim: 512              # 256 | 512 | 1024 — fissato da test 3.6.b
+  classifier:
+    name: gemma3:4b                  # zero-shot rilevanza; qwen3:4b se serve italiano
+    backend: ollama
+  entity_extraction:
+    name: gemma3:4b                  # stesso modello del classifier, scarico lazy
+    backend: ollama
+  compile:
+    name: claude-sonnet-4-6          # plan-pass, cloud
+    backend: anthropic
+    prompt_caching: true
+  weekly_synthesis:
+    name: claude-sonnet-4-6
+    backend: anthropic
+  rag_interactive:
+    name: qwen3:30b-a3b              # query sullo storico, locale
+    backend: ollama
+
+# --- Gestione VRAM (GPU consumer singola) ---
+# Batching sequenziale: un modello caricato per volta, si processa tutto il batch del giorno.
+vram:
+  sequential_batching: true
+  ollama_keep_alive: 0               # scarica subito dopo l'uso
+  empty_cache_between_stages: true
+
+# --- Schedule operativo (riferimento; orchestrazione reale via deploy/systemd) ---
+schedule:
+  arxiv_nightly: "00:00"
+  ingestion_morning: "06:00"
+  dedup: "06:15"
+  embed_semantic_dedup: "06:25"
+  classify_promote: "06:40"
+  pdf_ocr_if_triggered: "06:55"
+  compile: "07:00"
+  digest_send: "07:15"
+  prune_ephemeral: "22:00"           # potatura chunk effimeri > 90 giorni
+  topic_discovery: "Sun 22:00"       # bertopic sliding window, density-gated
+  kb_lint: "Sun 22:30"
+  weekly_synthesis: "Mon 08:00"
+
+# --- Ritenzione ---
+retention:
+  ephemeral_chunks_days: 90          # items_vec effimeri potati dopo
+  ingested_markdown_days: 90         # sources/ingested archiviabile dopo
+  digest_months: 12
+  # kb/ e kb.db: permanenti, mai potati
+
+# --- Canali di delivery ---
+delivery:
+  email:    { enabled: true,  for: [daily_digest] }
+  obsidian: { enabled: false, for: [all], vault_path: "" }
+  telegram: { enabled: false, for: [topic_alerts] }
+  rss:      { enabled: false, for: [daily_digest] }
+
+# --- Calibrazione iniziale ---
+calibration:
+  log_only_weeks: 2                  # prime 2 settimane: registra triage_score, non filtrare

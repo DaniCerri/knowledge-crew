@@ -1,0 +1,12 @@
+{
+  "_comment": "Soglie cosine per dedup semantica, calibrate via ROC (test 3.2.c). PLACEHOLDER: rilanciare il test quando embedder o dimensionalita Matryoshka cambiano.",
+  "cosine_threshold": {
+    "256": null,
+    "512": null,
+    "1024": null
+  },
+  "simhash_hamming_max": 3,
+  "calibration_date": null,
+  "fixture_set_version": null,
+  "embedding_model_version": null
+}

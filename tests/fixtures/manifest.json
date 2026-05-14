@@ -1,0 +1,33 @@
+{
+  "_comment": "Ground truth del fixture set condiviso (test-design §2). Mappa ogni fixture al file locale con i metadati attesi: usato per validare dedup, attribuzione e routing PDF page-level.",
+  "fixture_set_version": "0.1.0",
+  "collected_at": null,
+  "html": [],
+  "pdf": {
+    "pure": [],
+    "pathological": [],
+    "hybrid": []
+  },
+  "rss": [],
+  "syndication": [],
+  "_schema": {
+    "html_entry": {
+      "url": "string",
+      "local_file": "string",
+      "source": "string",
+      "expected_title": "string",
+      "expected_date": "ISO8601",
+      "expected_js_fallback": "bool"
+    },
+    "pdf_entry": {
+      "local_file": "string",
+      "source": "string",
+      "expected_routing": "lista per pagina: fast_ok | needs_ocr | needs_table_parser"
+    },
+    "syndication_group": {
+      "group_id": "string",
+      "members": "lista di url/file che parlano della stessa news",
+      "canonical": "url/file da tenere"
+    }
+  }
+}

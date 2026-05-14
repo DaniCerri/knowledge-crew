@@ -1,0 +1,38 @@
+# segreti
+.env
+
+# dati per-dominio (ricostruibili o troppo grandi / da backuppare a parte)
+domains/*/kb.db
+domains/*/kb.db-*
+domains/*/sources/ingested/*
+!domains/*/sources/ingested/.gitkeep
+domains/*/reports/digest/*
+domains/*/reports/weekly/*
+!domains/*/reports/digest/.gitkeep
+!domains/*/reports/weekly/.gitkeep
+
+# KB: versionata SI (e conoscenza durevole), tranne index/log rigenerabili
+domains/*/kb/index.md
+domains/*/kb/log.md
+
+# fixtures pesanti dei test: tracciati a parte, non in git
+tests/fixtures/html/*
+tests/fixtures/pdf/**/*.pdf
+tests/fixtures/rss/*
+!tests/fixtures/**/.gitkeep
+tests/test_runs/*.jsonl
+
+# logs
+logs/*
+!logs/.gitkeep
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/

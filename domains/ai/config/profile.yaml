@@ -1,0 +1,38 @@
+# Profilo di rilevanza e scoring del dominio AI.
+
+domain: ai
+
+# --- Classificazione rilevanza (classifier zero-shot) ---
+relevance:
+  whitelist:
+    - "LLM training, inference, evaluation"
+    - "AI agents, MCP, Claude"
+    - "RAG, retrieval, embedding"
+    - "model releases e benchmark"
+    - "AI tooling e developer workflow"
+  blacklist:
+    - "crypto pricing news"
+    - "generic startup / funding news"
+    - "politica"
+
+# --- Weight profiles per tipo di fonte (rinormalizzati a somma 1) ---
+# f=freshness  a=source_authority  t=topic_match  s=social_signal
+weight_profiles:
+  rss:        { f: 0.30, a: 0.50, t: 0.20, s: 0.00 }
+  newsletter: { f: 0.20, a: 0.40, t: 0.40, s: 0.00 }
+  arxiv:      { f: 0.20, a: 0.30, t: 0.50, s: 0.00 }
+  hackernews: { f: 0.20, a: 0.20, t: 0.30, s: 0.30 }
+  reddit:     { f: 0.20, a: 0.10, t: 0.40, s: 0.30 }
+  github:     { f: 0.30, a: 0.20, t: 0.30, s: 0.20 }
+  searxng:    { f: 0.40, a: 0.30, t: 0.30, s: 0.00 }
+
+# --- Freshness ---
+freshness_half_life_days: 5
+
+# --- Soglie ---
+# triage_score salvato sempre come valore assoluto [0,1].
+# promote_to_kb e booleano, calibrato per dominio (versione-mix.md §5.7).
+thresholds:
+  promote_to_kb: 0.75   # dominio ad alto volume, soglia alta
+  digest_min: 0.30
+  # PLACEHOLDER: ricalibrare dopo 2 settimane di "log only"

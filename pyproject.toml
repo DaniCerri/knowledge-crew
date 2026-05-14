@@ -1,0 +1,63 @@
+[project]
+name = "conoscienza"
+version = "0.1.0"
+description = "Pipeline personale di discovery, triage, compile e delivery di novita dal web in una knowledge base locale per dominio."
+requires-python = ">=3.11"
+readme = "README.md"
+
+dependencies = [
+    # ingestion
+    "feedparser",
+    "crawl4ai",
+    "trafilatura",
+    "pymupdf4llm",
+    "arxiv",
+    # dedup
+    "simhash",
+    # embedding e ml
+    "sentence-transformers",
+    "bertopic",
+    # llm clients
+    "ollama",
+    "anthropic",
+    # storage
+    "sqlite-vec",
+    "sqlite-utils",
+    # orchestration
+    "apscheduler",
+    # email
+    "mail-parser",
+    "google-api-python-client",
+    # utility
+    "pydantic",
+    "pyyaml",
+    "typer",
+    "rich",
+]
+
+[project.optional-dependencies]
+# parser PDF pesanti: installati solo quando il routing page-level li richiede (Milestone 3)
+# uv sync --extra heavy-pdf
+heavy-pdf = ["marker-pdf", "docling"]
+# reranker per RAG interattivo
+rag = ["FlagEmbedding"]
+
+[project.scripts]
+conoscienza = "conoscienza.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/conoscienza"]
+
+# uv: ambiente virtuale e lockfile gestiti con uv.
+# uv sync          -> crea .venv e installa deps + gruppo dev
+# uv run conoscienza ...
+[dependency-groups]
+dev = ["pytest", "pytest-asyncio", "ruff"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

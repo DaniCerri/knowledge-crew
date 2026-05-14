@@ -1,0 +1,20 @@
+# Fonti del dominio. Copiare in domains/<nome>/config/sources.yaml e compilare.
+# Regola: 10-15 fonti curate = 80% del valore. Non aggiungere rumore.
+#
+# type: rss | arxiv | hackernews | reddit | github_releases | email | searxng
+# authority: [0, 1] statico, usato dal priority scoring
+# domain: deve combaciare col nome della cartella del dominio
+
+sources:
+  - id: esempio-rss
+    type: rss
+    url: https://example.com/feed.xml
+    domain: TEMPLATE
+    authority: 0.7
+
+  - id: esempio-arxiv
+    type: arxiv
+    query: "cat:cs.XX"
+    max_per_run: 20
+    domain: TEMPLATE
+    authority: 0.7
