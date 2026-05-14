@@ -8,10 +8,19 @@ Guida per chi installa "La Conoscienza" sulla propria macchina (self-hosted).
 - Python 3.12 (fissato in `.python-version`).
 - [uv](https://docs.astral.sh/uv/) per ambiente virtuale e dipendenze.
 - Opzionale: GPU consumer per i modelli locali (embedding, classifier). Senza GPU si puo
-  operare in modalita cloud-only — vedi `config/global.example.yaml`, sezione `models`.
+  operare in modalita cloud-only — vedi `src/conoscienza/templates/global.example.yaml`,
+  sezione `models` (copiata in `data/config/global.yaml` da `conoscienza init`).
 - Opzionale: Docker, solo se si usa SearXNG per la discovery aperta.
 
 ## Passi
+
+> **Filesystem senza symlink (exFAT/FAT, alcune chiavette USB).** `uv` crea `.venv`
+> usando symlink: su exFAT fallisce con `Operation not permitted (os error 1)`. Soluzione:
+> creare il venv su un filesystem normale (ext4) esportando, prima dei comandi `uv`:
+> ```sh
+> export UV_PROJECT_ENVIRONMENT=~/.venvs/conoscienza
+> ```
+> I dati (`CONOSCIENZA_DATA`) possono restare su exFAT: sono file normali, niente symlink.
 
 ```sh
 # 1. dipendenze

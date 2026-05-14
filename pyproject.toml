@@ -31,6 +31,7 @@ dependencies = [
     # utility
     "pydantic",
     "pyyaml",
+    "python-dotenv",
     "typer",
     "rich",
 ]
@@ -43,7 +44,7 @@ heavy-pdf = ["marker-pdf", "docling"]
 rag = ["FlagEmbedding"]
 
 [project.scripts]
-conoscienza = "conoscienza.cli:app"
+conoscienza = "conoscienza.cli:main"
 
 [build-system]
 requires = ["hatchling"]

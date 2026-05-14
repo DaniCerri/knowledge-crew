@@ -17,8 +17,7 @@ Separazione netta tra cio che si distribuisce e cio che appartiene al cliente:
 | Path | Cosa | In git |
 |---|---|---|
 | `src/conoscienza/` | Codice pipeline. Domain-agnostic, scritto una volta, riusato da ogni dominio. | si |
-| `src/conoscienza/templates/` | Scheletri (`domain/`, config di esempio) usati da `conoscienza init` per scaffolding. Viaggiano col pacchetto. | si |
-| `config/global.example.yaml` | Config trasversale di esempio. Il cliente la copia in `data/config/global.yaml`. | si |
+| `src/conoscienza/templates/` | Scheletri (`domain/`, `global.example.yaml`) usati da `conoscienza init` per lo scaffolding. Viaggiano col pacchetto. | si |
 | `deploy/` | Template systemd + docker-compose (SearXNG). | si |
 | `docs/` | Guida installazione e onboarding di un dominio. | si |
 | `tests/` | Test isolati + e2e. `fixtures/` = dataset congelato (ambito AI = benchmark). | si |
