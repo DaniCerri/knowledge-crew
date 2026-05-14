@@ -66,8 +66,10 @@ uv run conoscienza init <nome>   # scaffold di un nuovo dominio
 
 ## Stato
 
-Implementato: CLI (`init`), storage layer (schema sqlite-vec + migration runner).
-Non ancora implementato: nessuno dei 5 stadi della pipeline, config loader.
+Implementato: CLI (`init`), storage layer (schema sqlite-vec + migration runner),
+config loader (`config.py`: modelli Pydantic + validazione di `global.yaml` e dei tre
+file di config per-dominio, `load_global` / `load_domain`).
+Non ancora implementato: nessuno dei 5 stadi della pipeline.
 
 Roadmap: `progettazione_preliminare/versione-mix.md` §13.
 

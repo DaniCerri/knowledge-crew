@@ -40,6 +40,25 @@ def domain_dir(domain: str, root: Path | None = None) -> Path:
     return domains_dir(root) / domain
 
 
+def domain_config_dir(domain: str, root: Path | None = None) -> Path:
+    return domain_dir(domain, root) / "config"
+
+
+def domain_profile_path(domain: str, root: Path | None = None) -> Path:
+    """Profilo di rilevanza e scoring del dominio."""
+    return domain_config_dir(domain, root) / "profile.yaml"
+
+
+def domain_sources_path(domain: str, root: Path | None = None) -> Path:
+    """Elenco fonti del dominio."""
+    return domain_config_dir(domain, root) / "sources.yaml"
+
+
+def domain_dedup_thresholds_path(domain: str, root: Path | None = None) -> Path:
+    """Soglie di deduplica (cosine per dimensionalita, Hamming SimHash)."""
+    return domain_config_dir(domain, root) / "dedup_thresholds.json"
+
+
 def logs_dir(root: Path | None = None) -> Path:
     return (root or data_root()) / "logs"
 
