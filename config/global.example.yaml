@@ -1,5 +1,8 @@
-# Config trasversale a tutti i domini.
-# Le scelte specifiche di un campo (fonti, soglie, whitelist) stanno in domains/<x>/config/.
+# ESEMPIO. Copiare in data/config/global.yaml e adattare.
+# `conoscienza init` lo fa automaticamente al primo avvio.
+# Config trasversale a tutti i domini dell'installazione.
+# Le scelte specifiche di un campo (fonti, soglie, whitelist) stanno in
+# data/domains/<x>/config/.
 
 # --- Modelli ---
 models:

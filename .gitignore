@@ -1,19 +1,11 @@
 # segreti
 .env
 
-# dati per-dominio (ricostruibili o troppo grandi / da backuppare a parte)
-domains/*/kb.db
-domains/*/kb.db-*
-domains/*/sources/ingested/*
-!domains/*/sources/ingested/.gitkeep
-domains/*/reports/digest/*
-domains/*/reports/weekly/*
-!domains/*/reports/digest/.gitkeep
-!domains/*/reports/weekly/.gitkeep
-
-# KB: versionata SI (e conoscenza durevole), tranne index/log rigenerabili
-domains/*/kb/index.md
-domains/*/kb/log.md
+# dati del cliente: tutto cio che e mutevole e di proprieta di chi installa.
+# kb.db, KB markdown, sorgenti ingerite, report, config compilata, log.
+# Va backuppato a parte, NON viaggia col pacchetto distribuibile.
+data/*
+!data/.gitkeep
 
 # fixtures pesanti dei test: tracciati a parte, non in git
 tests/fixtures/html/*
@@ -22,11 +14,7 @@ tests/fixtures/rss/*
 !tests/fixtures/**/.gitkeep
 tests/test_runs/*.jsonl
 
-# logs
-logs/*
-!logs/.gitkeep
-
-# python
+# python / uv
 __pycache__/
 *.py[cod]
 .venv/
